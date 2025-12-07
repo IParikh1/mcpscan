@@ -1,6 +1,9 @@
 """Console reporter with Rich formatting."""
 
+from __future__ import annotations
+
 from collections import defaultdict
+from typing import Dict, List, Optional
 
 from rich.console import Console
 from rich.panel import Panel
@@ -13,7 +16,7 @@ from mcpscan.models import Finding, Severity
 class ConsoleReporter:
     """Reporter that outputs findings to the console with Rich formatting."""
 
-    def __init__(self, console: Console | None = None) -> None:
+    def __init__(self, console: Optional[Console] = None) -> None:
         """Initialize the console reporter.
 
         Args:
@@ -21,7 +24,7 @@ class ConsoleReporter:
         """
         self.console = console or Console()
 
-    def report(self, findings: list[Finding], scan_path: str) -> None:
+    def report(self, findings: List[Finding], scan_path: str) -> None:
         """Output findings to the console.
 
         Args:
@@ -50,7 +53,7 @@ class ConsoleReporter:
             return
 
         # Group findings by severity
-        by_severity: dict[Severity, list[Finding]] = defaultdict(list)
+        by_severity: Dict[Severity, List[Finding]] = defaultdict(list)
         for finding in findings:
             by_severity[finding.severity].append(finding)
 
@@ -75,7 +78,7 @@ class ConsoleReporter:
 
         self.console.print()
 
-    def _print_summary(self, by_severity: dict[Severity, list[Finding]]) -> None:
+    def _print_summary(self, by_severity: Dict[Severity, List[Finding]]) -> None:
         """Print summary table of findings."""
         table = Table(title="Scan Summary", show_header=True)
         table.add_column("Severity", style="bold")
@@ -103,7 +106,7 @@ class ConsoleReporter:
         self.console.print()
 
     def _print_severity_section(
-        self, severity: Severity, findings: list[Finding]
+        self, severity: Severity, findings: List[Finding]
     ) -> None:
         """Print a section for a specific severity level."""
         header = f"{severity.emoji} {severity.value.upper()} ({len(findings)})"
@@ -142,7 +145,7 @@ class ConsoleReporter:
 
         self.console.print()
 
-    def _print_owasp_mapping(self, findings: list[Finding]) -> None:
+    def _print_owasp_mapping(self, findings: List[Finding]) -> None:
         """Print OWASP LLM Top 10 mapping."""
         owasp_ids = set()
         for finding in findings:

@@ -1,8 +1,11 @@
 """SARIF reporter for CI/CD integration."""
 
+from __future__ import annotations
+
 import json
 from datetime import datetime
 from pathlib import Path
+from typing import Dict, List, Optional
 
 from mcpscan.models import Finding, Severity
 from mcpscan.scanner.mcp.rules import RULES
@@ -20,9 +23,9 @@ class SARIFReporter:
 
     def report(
         self,
-        findings: list[Finding],
+        findings: List[Finding],
         scan_path: str,
-        output_path: Path | None = None,
+        output_path: Optional[Path] = None,
     ) -> str:
         """Generate SARIF report.
 

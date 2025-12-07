@@ -1,8 +1,11 @@
 """JSON reporter for machine-readable output."""
 
+from __future__ import annotations
+
 import json
 from datetime import datetime
 from pathlib import Path
+from typing import Dict, List, Optional
 
 from mcpscan.models import Finding
 
@@ -12,9 +15,9 @@ class JSONReporter:
 
     def report(
         self,
-        findings: list[Finding],
+        findings: List[Finding],
         scan_path: str,
-        output_path: Path | None = None,
+        output_path: Optional[Path] = None,
     ) -> str:
         """Generate JSON report.
 
@@ -41,7 +44,7 @@ class JSONReporter:
 
         return json_str
 
-    def _generate_summary(self, findings: list[Finding]) -> dict:
+    def _generate_summary(self, findings: List[Finding]) -> Dict:
         """Generate summary statistics."""
         summary = {
             "total": len(findings),
