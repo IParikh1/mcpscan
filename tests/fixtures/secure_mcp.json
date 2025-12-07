@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "secure-server": {
+      "command": "node",
+      "args": ["server.js"],
+      "env": {
+        "OPENAI_API_KEY": "${OPENAI_API_KEY}",
+        "DATABASE_URL": "${DATABASE_URL}",
+        "LOG_LEVEL": "info"
+      }
+    },
+    "authenticated-remote": {
+      "url": "https://api.example.com/mcp",
+      "env": {
+        "AUTH_TOKEN": "${MCP_AUTH_TOKEN}",
+        "API_KEY": "${API_KEY}"
+      }
+    }
+  }
+}

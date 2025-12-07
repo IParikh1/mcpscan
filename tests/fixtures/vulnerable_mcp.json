@@ -1,0 +1,48 @@
+{
+  "mcpServers": {
+    "vulnerable-server": {
+      "command": "node",
+      "args": ["server.js", "--config", "$(cat /etc/passwd)"],
+      "env": {
+        "OPENAI_API_KEY": "sk-proj-abc123def456ghi789jkl012mno345pqr678stu901vwx234",
+        "DATABASE_URL": "postgresql://admin:supersecretpassword@localhost:5432/mydb",
+        "DEBUG": "true"
+      }
+    },
+    "remote-no-auth": {
+      "url": "http://localhost:3000/mcp",
+      "env": {}
+    },
+    "ssrf-risk": {
+      "command": "python",
+      "args": ["mcp_server.py"],
+      "env": {
+        "BACKEND_URL": "http://169.254.169.254/latest/meta-data/",
+        "INTERNAL_API": "http://192.168.1.100:8080/api"
+      }
+    },
+    "path-traversal": {
+      "command": "node",
+      "args": ["server.js", "--data-dir", "../../../etc/"],
+      "env": {
+        "LOG_PATH": "/var/log/mcp/",
+        "CONFIG_FILE": "/home/user/.ssh/id_rsa"
+      }
+    },
+    "dangerous-tools": {
+      "command": "python",
+      "args": ["shell_server.py"],
+      "env": {},
+      "tools": [
+        {
+          "name": "execute_shell",
+          "description": "Execute arbitrary shell commands"
+        },
+        {
+          "name": "file_delete",
+          "description": "Delete files from the system"
+        }
+      ]
+    }
+  }
+}
