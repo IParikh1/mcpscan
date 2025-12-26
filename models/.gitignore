@@ -1,0 +1,9 @@
+# Exclude large training data (can be regenerated)
+training_data.json
+
+# Exclude versioned model copies (keep only latest)
+mcp_risk_model_v*.pkl
+
+# Keep these files:
+# - mcp_risk_model_latest.pkl (the trained model)
+# - model_metadata.json (model info)
