@@ -27,6 +27,8 @@ class MCPScanner(BaseScanner):
         "**/.cursor/mcp.json",
         "**/.claude/mcp.json",
         "**/mcp-server*/config.json",
+        "**/*_mcp.json",  # Common naming convention
+        "**/*mcp*.json",  # Catch-all for MCP configs
     ]
 
     def discover_targets(self) -> Generator[Path, None, None]:
@@ -151,9 +153,9 @@ class MCPScanner(BaseScanner):
             (r'AIza[0-9A-Za-z\-_]{35}', "Google API Key"),
             (r'ya29\.[0-9A-Za-z\-_]+', "Google OAuth Token"),
             (r'AKIA[0-9A-Z]{16}', "AWS Access Key ID"),
-            (r'["\']?password["\']?\s*[:=]\s*["\'][^"\']{8,}["\']', "Hardcoded password"),
-            (r'["\']?secret["\']?\s*[:=]\s*["\'][^"\']{8,}["\']', "Hardcoded secret"),
-            (r'["\']?api[_-]?key["\']?\s*[:=]\s*["\'][^"\']{16,}["\']', "Hardcoded API key"),
+            (r'["\']?password["\']?\s*[:=]\s*["\'](?!\$\{)[^"\']{8,}["\']', "Hardcoded password"),
+            (r'["\']?secret["\']?\s*[:=]\s*["\'](?!\$\{)[^"\']{8,}["\']', "Hardcoded secret"),
+            (r'["\']?api[_-]?key["\']?\s*[:=]\s*["\'](?!\$\{)[^"\']{16,}["\']', "Hardcoded API key"),
             (r'Bearer\s+[a-zA-Z0-9\-_.]+', "Bearer token"),
             (r'Basic\s+[a-zA-Z0-9+/=]+', "Basic auth credentials"),
         ]
